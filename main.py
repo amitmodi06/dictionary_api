@@ -1,7 +1,8 @@
 from flask import Flask, render_template
+import pandas as pd
 
 my_app = Flask(__name__)
-
+df = pd.read_csv("dictionary.csv")
 
 @my_app.route("/")
 def home_page():
@@ -10,7 +11,7 @@ def home_page():
 
 @my_app.route("/app/v1/<word>")
 def translator_page(word):
-    definition = word.upper()
+    definition = df.loc[df['word'] == word]["definition"].squeeze()
     result_dictionary = {"word": word, "definition": definition}
     return result_dictionary
 
